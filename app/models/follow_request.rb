@@ -9,6 +9,6 @@
 #  recipient_id :integer
 #  sender_id    :integer
 #
-class Followrequest < ApplicationRecord
+class FollowRequest < ApplicationRecord
   belongs_to :sender, required: true, class_name: "User", foreign_key: "sender_id"
 end
