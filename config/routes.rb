@@ -1,23 +1,24 @@
 Rails.application.routes.draw do  
+  devise_for :users
 
   #homepage
 
   get("/", { :controller => "users", :action => "index" })
-
+  
   # Sign-up routes
-  get("/users/sign_up", { :controller => "users", :action => "new" })
-  post("/users", { :controller => "users", :action => "create" })
+  #get("/users/sign_up", { :controller => "users", :action => "new" })
+  #post("/users", { :controller => "users", :action => "create" })
   
   # Sign-in routes
-  get("/users/sign_in", { :controller => "users", :action => "sign_in_form" })
-  post("/users/sign_in", { :controller => "users", :action => "sign_in" })
+  #get("/users/sign_in", { :controller => "users", :action => "sign_in_form" })
+  #post("/users/sign_in", { :controller => "users", :action => "sign_in" })
 
-  get("/users/sign_out", { :controller => "users", :action => "sign_out" })
+  #get("/users/sign_out", { :controller => "users", :action => "sign_out" })
   
   # Forgot password routes
-  get("/forgot_password", { :controller => "passwords", :action => "new" })
-  post("/passwords/reset", { :controller => "passwords", :action => "create" })
-
+  #get("/forgot_password", { :controller => "passwords", :action => "new" })
+  #post("/passwords/reset", { :controller => "passwords", :action => "create" })
+  
   # Routes for the Like resource:
 
   # CREATE
@@ -75,9 +76,9 @@ Rails.application.routes.draw do
 
   #------------------------------
 
-  devise_for :users
-  get("/users", { :controller => "users", :action => "index" })
-  get("/users/:id", { :controller => "users", :action => "show" })
+  #devise_for :users
+  ##get("/users", { :controller => "users", :action => "index" })
+  ##get("/users/:id", { :controller => "users", :action => "show" })
   # Routes for the Photo resource:
 
   # CREATE

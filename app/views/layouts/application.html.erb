@@ -8,17 +8,16 @@
   <body>
   <div class="navbar">
   <ul>
-    <% if session[:user_id] %>
-      <% user = User.where({ :id => session[:user_id] }).first %>
+    <% if user_signed_in? %>
       <li><a href="/users">All Users</a></li>
       <li><a href="/photos">All Public Photos</a></li>
-      <li><a href="/users/edit"><%= user.username %></a></li>
-      <li><a href="/users/sign_out">Sign Out</a></li>
-    <% else %>
+      <li><%= link_to current_user.username, edit_user_registration_path %></li>
+      <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+    <% else %> 
       <li><a href="/users">All Users</a></li>
       <li><a href="/photos">All Public Photos</a></li>
-      <li><a href="/users/sign_in">Sign In</a></li>
-      <li><a href="/users/sign_up">Sign Up</a></li>
+      <li><%= link_to "Sign In", new_user_session_path %></li>
+      <li><%= link_to "Sign Up", new_user_registration_path %></li>
     <% end %>
   </ul>
 </div>

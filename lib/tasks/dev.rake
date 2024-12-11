@@ -56,7 +56,15 @@ task({ :sample_data => :environment}) do
   ]
   User.insert_all!(users)
 
-  x
+  if User.method_defined?(:password) || User.has_attribute?(:password_digest)
+    User.all.each do |user|
+      user.password = "password"
+      user.save
+    end
+    puts "Found a password column. Added passwords."
+  else
+    # puts "No password column found. Didn't add passwords."
+  end
 
   follow_requests = [
     {id: 1608, sender_id: 114, recipient_id: 81, status: "accepted", created_at: "2015-04-24 01:26:47", updated_at: "2019-10-08 10:25:00"},
