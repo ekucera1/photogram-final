@@ -22,6 +22,24 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  def follows?(other_user)
+    FollowRequest.exists?({ :sender_id => self.id, :recipient_id => other_user.id, :status => "accepted" })
+  end
+
+  def pending_follow_request_for(other_user)
+    FollowRequest.where({ :sender_id => self.id, :recipient_id => other_user.id, :status => "pending" }).first
+  end
+
+  def followed_users
+    # Find accepted follow requests where the current user is the sender
+    accepted_follow_requests = FollowRequest.where({ :sender_id => self.id, :status => "accepted" })
+    followed_user_ids = accepted_follow_requests.map(&:recipient_id)
+    
+    # Retrieve the users who are being followed
+    followed_users = User.where({ :id => followed_user_ids })
+    return followed_users
+  end
+
   #has_secure_password
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

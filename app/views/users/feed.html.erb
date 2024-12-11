@@ -1,0 +1,8 @@
+<h1>Feed for <%= params.fetch("username") %></h1>
+
+<% @photos.each do |photo| %>
+  <div>
+    <h2><%= photo.caption %></h2>
+    <img src="<%= photo.image %>" alt="<%= photo.caption %>">
+  </div>
+<% end %>

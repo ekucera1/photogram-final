@@ -18,17 +18,24 @@ class FollowRequestsController < ApplicationController
   end
 
   def create
-    the_follow_request = FollowRequest.new
-    the_follow_request.recipient_id = params.fetch("query_recipient_id")
-    the_follow_request.sender_id = params.fetch("query_sender_id")
-    the_follow_request.status = params.fetch("query_status")
+    recipient_id = params.fetch("query_recipient_id")
+    action = params.fetch("action")
 
-    if the_follow_request.valid?
-      the_follow_request.save
-      redirect_to("/follow_requests", { :notice => "FollowRequest created successfully." })
-    else
-      redirect_to("/follow_requests", { :alert => the_follow_request.errors.full_messages.to_sentence })
+    case action
+    when "request_follow"
+      user = User.where({ :id => recipient_id }).first
+      if user.private
+        FollowRequest.new({ :sender_id => current_user.id, :recipient_id => user.id, :status => "pending" }).save
+      else
+        FollowRequest.new({ :sender_id => current_user.id, :recipient_id => user.id, :status => "accepted" }).save
+      end
+    when "unfollow"
+      FollowRequest.where({ :sender_id => current_user.id, :recipient_id => recipient_id, :status => "accepted" }).destroy_all
+    when "cancel_request"
+      FollowRequest.where({ :sender_id => current_user.id, :recipient_id => recipient_id, :status => "pending" }).destroy_all
     end
+
+    redirect_to users_path
   end
 
   def update
@@ -41,9 +48,9 @@ class FollowRequestsController < ApplicationController
 
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests/#{the_follow_request.id}", { :notice => "FollowRequest updated successfully."} )
+      redirect_to users_path
     else
-      redirect_to("/follow_requests/#{the_follow_request.id}", { :alert => the_follow_request.errors.full_messages.to_sentence })
+      redirect_to users_path
     end
   end
 
@@ -53,6 +60,6 @@ class FollowRequestsController < ApplicationController
 
     the_follow_request.destroy
 
-    redirect_to("/follow_requests", { :notice => "FollowRequest deleted successfully."} )
+    redirect_to users_path
   end
 end

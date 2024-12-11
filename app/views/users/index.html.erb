@@ -7,7 +7,7 @@
       <th>Private</th>
       <th>Show Details</th>
       <% if user_signed_in? %>
-        <th>Follow Requests</th>
+        <th>Follow/Unfollow</th>
       <% end %>
     </tr>
   </thead>
@@ -19,8 +19,17 @@
         <td><%= link_to "Show Details", "/users/#{user.username}" %></td>
         <% if user_signed_in? %>
           <td>
-            <%# Add your logic here for follow requests, e.g., a button to send a follow request %>
-            <%= button_to "Request Follow", follow_requests_path(:query_recipient_id => user.id), { :method => :post } %>
+            <% if current_user.follows?(user) %>
+              <%= link_to "Unfollow", follow_requests_path(:query_recipient_id => user.id, :action => :unfollow), { :method => :post } %>
+            <% else %>
+              <% follow_request = current_user.pending_follow_request_for(user) %>
+              <% if follow_request %>
+                <%= link_to "Request Sent", "#", class: "disabled" %>
+                <%= link_to "Cancel", follow_requests_path(:query_recipient_id => user.id, :action => :cancel_request), { :method => :post } %>
+              <% else %>
+                <%= button_to "Follow", follow_requests_path(:query_recipient_id => user.id, :action => :request_follow), { :method => :post } %>
+              <% end %>
+            <% end %>
           </td>
         <% end %>
       </tr>
