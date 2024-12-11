@@ -3,9 +3,21 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:index]
 
   def index
-    @users = User.all
+    @users = User.all.order({ :username => :asc })
     render({ :template => "users/index" })
   end
+
+  def show
+    @user = User.where({ :username => params.fetch("username") }).at(0)
+
+    if @user.nil?
+      redirect_to("/", { :alert => "User not found." })
+    else
+      render({ :template => "users/show" })
+    end
+  end
+
+  
   
   
 end

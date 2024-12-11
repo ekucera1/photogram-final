@@ -31,14 +31,23 @@ class LikesController < ApplicationController
   #end
 
   def create
-    new_like = Like.new
-    new_like.fan_id = current_user.id
-    new_like.photo_id = params.fetch("photo_id")
+    # Check if the like already exists
+    existing_like = Like.where({ :fan_id => current_user.id, :photo_id => params.fetch("photo_id") }).at(0)
 
-    if new_like.save
-      redirect_to("/photos/#{new_like.photo_id}", { :notice => "Liked successfully." })
+    if existing_like.nil?
+      # Create a new like if it doesn't exist
+      new_like = Like.new
+      new_like.fan_id = current_user.id
+      new_like.photo_id = params.fetch("photo_id")
+
+      if new_like.save
+        redirect_to("/photos/#{new_like.photo_id}", { :notice => "Liked successfully." })
+      else
+        redirect_to("/photos/#{new_like.photo_id}", { :alert => new_like.errors.full_messages.to_sentence })
+      end
     else
-      redirect_to("/photos/#{new_like.photo_id}", { :alert => new_like.errors.full_messages.to_sentence })
+      # Optionally redirect or handle the case where the like already exists
+      redirect_to("/photos/#{existing_like.photo_id}", { :notice => "You've already liked this photo." })
     end
   end
 
@@ -53,22 +62,25 @@ class LikesController < ApplicationController
       redirect_to("/photos", { :alert => "Like could not be found." })
     end
   end
-end
 
   def update
-    the_id = params.fetch("path_id")
-    the_like = Like.where({ :id => the_id }).at(0)
+    like_id = params.fetch("path_id")
+    like_to_update = Like.where({ :id => like_id }).at(0)
 
-    the_like.fan_id = params.fetch("query_fan_id")
-    the_like.photo_id = params.fetch("query_photo_id")
-
-    if the_like.valid?
-      the_like.save
-      redirect_to("/photos/#{the_like.id}", { :notice => "Like updated successfully."} )
+    if like_to_update.present?
+      # Example: Updating the photo_id the like is associated with
+      like_to_update.photo_id = params.fetch("photo_id", like_to_update.photo_id)
+      
+      if like_to_update.save
+        redirect_to("/photos/#{like_to_update.photo_id}", { :notice => "Like updated successfully." })
+      else
+        redirect_to("/photos/#{like_to_update.photo_id}", { :alert => like_to_update.errors.full_messages.to_sentence })
+      end
     else
-      redirect_to("/photos/#{the_like.id}", { :alert => the_like.errors.full_messages.to_sentence })
+      redirect_to("/photos/#{like_id}", { :alert => "Like could not be found." })
     end
   end
+end
   #def destroy
     #the_id = params.fetch("path_id")
     #the_like = Like.where({ :id => the_id }).at(0)
@@ -80,4 +92,3 @@ end
    #   redirect_to("/photos", { :alert => "Like could not be found." })
    # end
   #end
-end

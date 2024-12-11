@@ -32,8 +32,10 @@ Rails.application.routes.draw do
   get("/likes/:path_id", { :controller => "likes", :action => "show" })
 
   # UPDATE
+  post "/likes", { :controller => "likes", :action => "create" }
+
   
-  post("/modify_like/:path_id", { :controller => "likes", :action => "update" })
+  post("/photos/:path_id", { :controller => "likes", :action => "update" })
   
   # DELETE
   get("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
@@ -49,6 +51,9 @@ Rails.application.routes.draw do
   get("/follow_requests", { :controller => "follow_requests", :action => "index" })
   
   get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
+
+  get("/users/:username", { :controller => "users", :action => "show" })
+
   
   # UPDATE
   
@@ -56,6 +61,9 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_follow_request/:path_id", { :controller => "follow_requests", :action => "destroy" })
+
+  post "/follow_requests", { :controller => "follow_requests", :action => "create" }
+
 
   #------------------------------
 

@@ -86,9 +86,9 @@
  <% user_like = Like.where({ :fan_id => current_user.id, :photo_id => @the_photo.id }).at(0) %>
 
 <% if user_like.nil? %>
-  <%= button_to "Like", "/photos/:path_id", { :method => :post, :params => { :photo_id => @the_photo.id }, :class => "like-button" } %>
+  <%= button_to "Like", "/photos/#{@the_photo.id}", { :method => :post, :params => { :photo_id => @the_photo.id }, :class => "like-button" } %>
 <% else %>
-  <%= button_to "Unlike", "/photos/:path_id", { :method => :delete, :class => "unlike-button" } %>
+  <%= button_to "Unlike", "/photos/#{@the_photo.id}", { :method => :delete, :class => "unlike-button" } %>
 <% end %>
 </div>
 
