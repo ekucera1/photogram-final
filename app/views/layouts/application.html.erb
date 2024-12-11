@@ -12,7 +12,7 @@
       <li><a href="/users">All Users</a></li>
       <li><a href="/photos">All Public Photos</a></li>
       <li><%= link_to current_user.username, edit_user_registration_path %></li>
-      <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+      <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %></li>
     <% else %> 
       <li><a href="/users">All Users</a></li>
       <li><a href="/photos">All Public Photos</a></li>
