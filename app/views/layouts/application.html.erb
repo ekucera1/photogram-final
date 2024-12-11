@@ -25,5 +25,11 @@
   <div style="margin-top: 50px;">
     <%= yield %>
   </div>
+
+  <% flash.each do |key, message| %>
+  <div class="<%= key %>">
+    <%= message %>
+  </div>
+<% end %>
 </body>
 </html>

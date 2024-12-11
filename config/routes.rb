@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get("/likes", { :controller => "likes", :action => "index" })
   
   get("/likes/:path_id", { :controller => "likes", :action => "show" })
-  
+
   # UPDATE
   
   post("/modify_like/:path_id", { :controller => "likes", :action => "update" })

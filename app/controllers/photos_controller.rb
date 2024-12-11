@@ -9,11 +9,20 @@ class PhotosController < ApplicationController
   end
 
   def show
+    #the_id = params.fetch("path_id")
+
+    #matching_photos = Photo.where({ :id => the_id })
+
+    #@the_photo = matching_photos.at(0)
+
+    #ender({ :template => "photos/show" })
     the_id = params.fetch("path_id")
 
     matching_photos = Photo.where({ :id => the_id })
-
     @the_photo = matching_photos.at(0)
+
+    # Fetch comments related to the photo
+    @photo_comments = Comment.where({ :photo_id => @the_photo.id })
 
     render({ :template => "photos/show" })
   end
@@ -23,7 +32,7 @@ class PhotosController < ApplicationController
     the_photo.caption = params.fetch("query_caption")
     the_photo.comments_count = params.fetch("query_comments_count")
     the_photo.image = params.fetch("query_image")
-    the_photo.likes_count = params.fetch("query_likes_count")
+    #the_photo.likes_count = params.fetch("query_likes_count")
     the_photo.owner_id = params.fetch("query_owner_id")
     the_photo.likes_count = params.fetch("query_likes_count")
 
@@ -41,8 +50,9 @@ class PhotosController < ApplicationController
 
     the_photo.caption = params.fetch("query_caption")
     the_photo.comments_count = params.fetch("query_comments_count")
+    #the_photo.comments = params.fetch("query_comments")
     the_photo.image = params.fetch("query_image")
-    the_photo.likes_count = params.fetch("query_likes_count")
+    #the_photo.likes_count = params.fetch("query_likes_count")
     the_photo.owner_id = params.fetch("query_owner_id")
     the_photo.likes_count = params.fetch("query_likes_count")
 

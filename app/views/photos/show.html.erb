@@ -83,7 +83,28 @@
       </dd>
     </dl>
   </div>
+ <% user_like = Like.where({ :fan_id => current_user.id, :photo_id => @the_photo.id }).at(0) %>
+
+<% if user_like.nil? %>
+  <%= button_to "Like", "/photos/:path_id", { :method => :post, :params => { :photo_id => @the_photo.id }, :class => "like-button" } %>
+<% else %>
+  <%= button_to "Unlike", "/photos/:path_id", { :method => :delete, :class => "unlike-button" } %>
+<% end %>
 </div>
+
+<% if @the_photo.owner_id == current_user.id %>
+  <%= button_to "Delete Photo", "/photos/#{@the_photo.id}", { :method => :delete, :data => { :confirm => "Are you sure?" } } %>
+<% end %>
+
+<h2>Comments:</h2>
+<ul>
+  <% @photo_comments.each do |comment| %>
+    <% the_user = User.where({ :id => comment.author_id }).at(0) %>
+    <li>
+      <strong><%= the_user.username %>:</strong> <%= comment.body %>
+    </li>
+  <% end %>
+</ul>
 
 <hr>
 
@@ -159,3 +180,15 @@
 </div>
 
 <hr>
+
+<h3>Add a Comment:</h3>
+<%= form_with url: "/comments", method: :post do %>
+  <div>
+    <label for="body">Comment:</label>
+    <textarea name="query_body" id="body"></textarea>
+  </div>
+  <%= hidden_field_tag :photo_id, @the_photo.id %>
+  <div>
+    <%= submit_tag "Post Comment" %>
+  </div>
+<% end %>
