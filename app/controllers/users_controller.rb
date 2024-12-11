@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  def index
+    @users = User.all
+    render({ :template => "users/index" })
+  end
+  
   def new
     render({ :template => "users/sign_up" })
   end
@@ -7,26 +12,33 @@ class UsersController < ApplicationController
     user = User.new
     user.email = params.fetch("email")
     user.password = params.fetch("password")
-    user.password_confirmation = params.fetch("password_confirmation")
+    #user.password_confirmation = params.fetch("password_confirmation")
     user.username = params.fetch("username")
     user.private = params.key?("private")
     
     if user.save
-      redirect_to("/sign_in")
+      redirect_to("/users/sign_in")
     else
       render({ :template => "users/sign_up" })
     end
   end
-  
-  # Display a user's profile
-  def show
-    @user = User.where({ :id => params.fetch("id") }).at(0)
-    render({ :template => "users/show" })
+
+  def sign_in_form
+    render({ :template => "users/sign_in" })
   end
 
-  # List all users
-  def index
-    @users = User.all
-    render({ :template => "users/index" })
+  def sign_in
+    email = params.fetch("email")
+    password = params.fetch("password")
+
+    user = User.where({ :email => email }).first
+    
+    if user && user.authenticate(password)
+      session.store(:user_id, user.id)
+      redirect_to("/")
+    else
+      render({ :template => "users/sign_in" })
+    end
+    
   end
 end

@@ -1,14 +1,18 @@
 Rails.application.routes.draw do  
-  get("/sign_up", { :controller => "users", :action => "new" })
-  post("/users", { :controller => "users", :action => "create" })
 
   #homepage
 
   get("/", { :controller => "users", :action => "index" })
 
+  # Sign-up routes
+  get("/users/sign_up", { :controller => "users", :action => "new" })
+  post("/users", { :controller => "users", :action => "create" })
+  
   # Sign-in routes
-  get("/sign_in", { :controller => "sessions", :action => "new" })
-  post("/sessions", { :controller => "sessions", :action => "create" })
+  get("/users/sign_in", { :controller => "users", :action => "sign_in_form" })
+  post("/users/sign_in", { :controller => "users", :action => "sign_in" })
+
+  get("/users/sign_out", { :controller => "users", :action => "sign_out" })
   
   # Forgot password routes
   get("/forgot_password", { :controller => "passwords", :action => "new" })
