@@ -1,0 +1,23 @@
+<h1>Sign Up</h1>
+<form action="/users" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" minlength="6" required>
+
+  <label for="password_confirmation">Password Confirmation:</label>
+  <input type="password" id="password_confirmation" name="password_confirmation" required>
+
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required>
+
+  <label for="private">Private:</label>
+  <input type="checkbox" id="private" name="private">
+
+  <button type="submit">Sign Up</button>
+</form>
+
+<a href="/sign_in">Log In</a>

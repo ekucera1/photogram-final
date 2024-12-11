@@ -1,4 +1,19 @@
 Rails.application.routes.draw do  
+  get("/sign_up", { :controller => "users", :action => "new" })
+  post("/users", { :controller => "users", :action => "create" })
+
+  #homepage
+
+  get("/", { :controller => "users", :action => "index" })
+
+  # Sign-in routes
+  get("/sign_in", { :controller => "sessions", :action => "new" })
+  post("/sessions", { :controller => "sessions", :action => "create" })
+  
+  # Forgot password routes
+  get("/forgot_password", { :controller => "passwords", :action => "new" })
+  post("/passwords/reset", { :controller => "passwords", :action => "create" })
+
   # Routes for the Like resource:
 
   # CREATE
