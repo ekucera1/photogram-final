@@ -8,13 +8,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.where({ :username => params.fetch("username") }).at(0)
-
-    if @user.nil?
-      redirect_to("/", { :alert => "User not found." })
-    else
-      render({ :template => "users/show" })
-    end
+    @user = User.where({ :username => params.fetch("username") }).first
+    render({ :template => "users/show" })
   end
 
   

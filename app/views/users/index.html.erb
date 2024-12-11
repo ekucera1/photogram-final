@@ -16,11 +16,11 @@
       <tr>
         <td><%= user.username %></td>
         <td><%= user.private ? "Yes" : "No" %></td>
-        <td><%#= link_to "Show Details", user_path(user.username) %></td>
+        <td><%= link_to "Show Details", "/users/#{user.username}" %></td>
         <% if user_signed_in? %>
           <td>
             <%# Add your logic here for follow requests, e.g., a button to send a follow request %>
-            <%= button_to "Request Follow", follow_requests_path(:user_id => user.id), { :method => :post } %>
+            <%= button_to "Request Follow", follow_requests_path(:query_recipient_id => user.id), { :method => :post } %>
           </td>
         <% end %>
       </tr>
