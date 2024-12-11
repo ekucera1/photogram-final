@@ -9,12 +9,12 @@
   <div class="navbar">
   <ul>
     <% if user_signed_in? %>
-      <li><a href="/users">All Users</a></li>
+      <li><%= link_to "All Users", users_path %></li>
       <li><a href="/photos">All Public Photos</a></li>
       <li><%= link_to current_user.username, edit_user_registration_path %></li>
       <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %></li>
     <% else %> 
-      <li><a href="/users">All Users</a></li>
+      <li><%= link_to "All Users", users_path %></li>
       <li><a href="/photos">All Public Photos</a></li>
       <li><%= link_to "Sign In", new_user_session_path %></li>
       <li><%= link_to "Sign Up", new_user_registration_path %></li>
