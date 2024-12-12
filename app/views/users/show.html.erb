@@ -1,3 +1,15 @@
 <h1><%= @user.username %>'s Profile</h1>
 <p>Email: <%= @user.email %></p>
-<p>Private: <%= @user.private ? "Yes" : "No" %></p>
+<p>Private: <%= @user.private ? "True" : "False" %></p>
+<p>Number of Likes: <%= @user.likes_count %></p>
+<p>Number of Photos: <%= @user.likes_count %></p>
+<p>Number of Followed Users: <%= @user.followed_users.count %></p>
+<% @photos.each do |photo| %>
+  <% if photo.owner_id == @user.id %>
+    <div>
+      <h2><%= photo.caption %></h2>
+      <img src="<%= photo.image %>" alt="<%= photo.caption %>">
+      <p>Show details: <%= @user.followed_users.count %></p>
+    </div>
+  <% end %>
+<% end %>

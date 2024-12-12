@@ -33,6 +33,10 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show]
 
   def show
+    username = params.fetch("username")
+    user = User.where({ :username => username }).at(0)
+    followed_users = user.followed_users
+    @photos = Photo.where({ :owner_id => user.id })
     unless current_user.follows?(@user)
       flash.now[:alert] = "You must follow the user to view their full profile."
     end
