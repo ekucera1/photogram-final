@@ -40,6 +40,16 @@ class User < ApplicationRecord
     return followed_users
   end
 
+  def followers
+    # Find accepted follow requests where the current user is the sender
+    accepted_follow_requests = FollowRequest.where({ self.id => :sender_id, :status => "accepted" })
+    followed_user_ids = accepted_follow_requests.map(&:recipient_id)
+    
+    # Retrieve the users who are being followed
+    followed_users = User.where({ :id => followed_user_ids })
+    return followed_users
+  end
+
   #has_secure_password
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

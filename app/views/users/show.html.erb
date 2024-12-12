@@ -2,14 +2,39 @@
 <p>Email: <%= @user.email %></p>
 <p>Private: <%= @user.private ? "True" : "False" %></p>
 <p>Number of Likes: <%= @user.likes_count %></p>
-<p>Number of Photos: <%= @user.likes_count %></p>
+<p>Number of Followers: <%#= @user.followers %></p>
 <p>Number of Followed Users: <%= @user.followed_users.count %></p>
+<p>Follow Requests: <%#= @user.foll %></p>
+<% @users.each do |user| %>
+<% if user_signed_in? %>
+          <td>
+            <% if current_user.follows?(user) %>
+              <%= link_to "Unfollow", follow_requests_path(:query_recipient_id => user.id, :action => :unfollow), { :method => :post } %>
+              <% break %>
+            <% else %>
+              <% follow_request = current_user.pending_follow_request_for(user) %>
+              <% if follow_request %>
+                <%= link_to "Request Sent", "#", class: "disabled" %>
+                <%= link_to "Cancel", follow_requests_path(:query_recipient_id => user.id, :action => :cancel_request), { :method => :post } %>
+                <% break %>
+              <% else %>
+                <%= button_to "Follow", follow_requests_path(:query_recipient_id => user.id, :action => :request_follow), { :method => :post } %>
+                <% next %>
+              <% end %>
+              <% next %>
+            <% end %>
+            <% next %>
+          </td>
+        <% end %>
+        <% next %>
+        <% end %>
 <% @photos.each do |photo| %>
   <% if photo.owner_id == @user.id %>
     <div>
       <h2><%= photo.caption %></h2>
       <img src="<%= photo.image %>" alt="<%= photo.caption %>">
-      <p>Show details: <%= @user.followed_users.count %></p>
+      <p>Number of Likes: <%= photo.likes_count %></p>
+      <p>Time Posted: <%= (Time.current - photo.created_at).round  %> minutes ago</p>
     </div>
   <% end %>
 <% end %>

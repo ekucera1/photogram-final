@@ -33,6 +33,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show]
 
   def show
+    @users = User.all
     username = params.fetch("username")
     user = User.where({ :username => username }).at(0)
     followed_users = user.followed_users

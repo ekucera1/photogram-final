@@ -28,6 +28,7 @@ class PhotosController < ApplicationController
   end
 
   def create
+    the_user = User.new
     the_photo = Photo.new
     the_photo.caption = params.fetch("query_caption")
     the_photo.comments_count = params.fetch("query_comments_count")

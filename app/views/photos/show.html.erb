@@ -13,7 +13,7 @@
 
       <div>
         <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
+          Delete this photo
         </a>
       </div>
     </div>
@@ -37,7 +37,7 @@
         Image
       </dt>
       <dd>
-        <%= @the_photo.image %>
+        <img src="<%= @the_photo.image %>" alt="<%= @the_photo.caption %>">
       </dd>
 
       <dt>
@@ -51,7 +51,9 @@
         Owner
       </dt>
       <dd>
-        <%= @the_photo.owner_id %>
+        <%= user_id = @the_photo.owner_id %>
+        <%#= @the_user.owner_id %>
+
       </dd>
 
       <dt>
@@ -93,7 +95,7 @@
 </div>
 
 <% if @the_photo.owner_id == current_user.id %>
-  <%= button_to "Delete Photo", "/photos/#{@the_photo.id}", { :method => :delete, :data => { :confirm => "Are you sure?" } } %>
+  <%= button_to "Delete this photo", "/photos/#{@the_photo.id}", { :method => :delete, :data => { :confirm => "Are you sure?" } } %>
 <% end %>
 
 <h2>Comments:</h2>
